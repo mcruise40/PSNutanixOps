@@ -1,0 +1,99 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/powershell
+{
+    "name": "PowerShell-PSScriptModule",
+    "image": "ubuntu:latest",
+
+    // Use 'features' to install additional components in the container.
+    "features": {
+        "ghcr.io/devcontainers/features/common-utils:2": {
+            "upgradePackages": "true",
+            "username": "vscode",
+            "userGid": "1001",
+            "userUid": "1001"
+        },
+        "ghcr.io/devcontainers/features/powershell:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/github-cli:1": {
+            "version": "latest"
+        },
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+            "version": "latest"
+        }
+    },
+
+    // Configure tool-specific properties.
+    "customizations": {
+        // Configure properties specific to VS Code.
+        "vscode": {
+            // Set *default* container specific settings.json values on container create.
+            "settings": {
+                // Set the default shell to PowerShell
+                "terminal.integrated.enablePersistentSessions": false,
+                "terminal.integrated.defaultProfile.linux": "pwsh",
+                "terminal.integrated.profiles.linux": {
+                    "bash": {
+                        "path": "bash"
+                    },
+                    "pwsh": {
+                        "path": "pwsh"
+                    }
+                },
+                // Prevent automatic terminal creation
+                "terminal.integrated.automationProfile.linux": null,
+
+                // Disable the startup editor for devcontainer
+                "workbench.startupEditor": "none",
+
+                // GitHub Copilot settings for devcontainer
+                "github.copilot.chat.enableTerminalIntegration": true,
+
+                // PowerShell extension settings for devcontainer
+                "powershell.integratedConsole.showOnStartup": false,
+                "powershell.startAsLoginShell.linux": false,
+                "powershell.powerShellAdditionalExePaths": { },
+
+                // Disable extension recommendations for devcontainer
+                "extensions.ignoreRecommendations": true
+            },
+
+            // Add the IDs of extensions you want installed when the container is created.
+            "extensions": [
+                "ms-vscode.powershell",
+                "pspester.pester-test",
+                "editorconfig.editorconfig",
+                "DavidAnson.vscode-markdownlint"
+            ],
+            "remote.extensionKind": {
+                "github.copilot": [ "ui" ],
+                "github.copilot-chat": [ "ui" ],
+                "github.vscode-github-actions": [ "ui" ]
+            }
+        }
+    },
+
+    // Run once when the container is created
+    "onCreateCommand": "pwsh -NoProfile -Command \"if (-not (Get-Module -ListAvailable -Name PSDepend)) { Install-Module -Name PSDepend -Scope CurrentUser -Force }; Invoke-PSDepend -Path '/workspaces/PSScriptModule/requirements.psd1' -Install -Import -Force -Verbose\"",
+
+    // Run after container starts (each time)
+    "postStartCommand": "pwsh -NoProfile -Command 'Write-Host \"Container started.\"'",
+
+    // Run after attaching to container
+    "postAttachCommand": "pwsh -NoProfile -Command 'Write-Host \"Dev container ready. All configurations processed.\"'",
+
+    // Wait for commands to complete before marking ready
+    "waitFor": "postAttachCommand",
+
+    // Mount .gitconfig and GitHub CLI config from host to inherit credentials
+    "mounts": [
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.gitconfig,target=/home/vscode/.gitconfig,type=bind,consistency=cached",
+        "source=${localEnv:HOME}${localEnv:USERPROFILE}/.config/gh,target=/home/vscode/.config/gh,type=bind,consistency=cached"
+    ],
+
+    // Use 'forwardPorts' to make a list of ports inside the container available locally.
+    // "forwardPorts": [],
+
+    // Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
+    "remoteUser": "vscode"
+}

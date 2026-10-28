@@ -1,0 +1,13 @@
+# Build results
+[Bb]uild/
+[Ll]ogs/
+
+# Test results
+test-results/
+
+# VS Code Crash Reports
+.vscode/.crash/
+
+# OS generated files
+.DS_Store
+Thumbs.db

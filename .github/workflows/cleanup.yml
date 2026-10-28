@@ -1,0 +1,34 @@
+name: Cleanup
+run-name: "${{ github.event.repository.name }} | Cleanup | ${{ github.run_id }} | ${{ github.event_name }}"
+on:
+  schedule:
+    # Every day at midnight
+    - cron: '0 0  * * *'
+  workflow_dispatch:
+    inputs:
+      minimum-runs:
+        description: 'Minimum number of recent workflow runs to retain'
+        required: false
+        type: number
+        default: 2
+      retain-days:
+        description: 'Number of days to retain workflow runs'
+        required: false
+        type: number
+        default: 5
+
+jobs:
+  cleanup-runs:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@b3018382ca039b53d238908238bd35d1fb14f8ee  #v2.1
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          keep_minimum_runs: ${{ github.event.inputs.minimum-runs || 5 }}
+          check_pullrequest_exist: true
+          retain_days: ${{ github.event.inputs.retain-days || 5 }}

@@ -1,0 +1,70 @@
+{
+    // Editor settings
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.tabSize": 4,
+    "editor.renderWhitespace": "all",
+    "editor.insertSpaces": true,
+    "editor.defaultFormatter": "ms-vscode.powershell",
+    // File settings
+    "[powershell]": {
+        "files.trimTrailingWhitespace": true,
+        "files.insertFinalNewline": true
+    },
+    "files.exclude": {
+        "**/.DS_Store": true
+    },
+    // Enable PowerShell Script Analyzer in workspace
+    "powershell.scriptAnalysis.enable": true,
+    "powershell.scriptAnalysis.settingsPath": "tests/PSScriptAnalyzer/PSScriptAnalyzerSettings.psd1",
+    // PowerShell extension settings
+    "powershell.codeFormatting.autoCorrectAliases": true,
+    // Sets the codeformatting options to follow the given indent style in a way that is compatible with PowerShell syntax. For more information about the brace styles please refer to https://github.com/PoshCode/PowerShellPracticeAndStyle/issues/81.
+    "powershell.codeFormatting.preset": "OTBS",
+    // Adds a space between a keyword and its associated scriptblock expression.
+    "powershell.codeFormatting.whitespaceBeforeOpenBrace": true,
+    // Remove trailing whitespace at the end of lines.
+    "powershell.codeFormatting.trimTrailingWhitespace": true,
+    // Adds a space between a keyword (if, elseif, while, switch, etc) and its associated conditional expression.
+    "powershell.codeFormatting.whitespaceBeforeOpenParen": true,
+    // Adds spaces before and after an operator ('=', '+', '-', etc.).
+    "powershell.codeFormatting.whitespaceAroundOperator": true,
+    // Adds a space after a separator (',' and ';').
+    "powershell.codeFormatting.whitespaceAfterSeparator": true,
+    "powershell.codeFormatting.trimWhitespaceAroundPipe": true,
+    "powershell.codeFormatting.useConstantStrings": true,
+    "powershell.codeFormatting.useCorrectCasing": true,
+    // Enables Pester 5 CodeLens features such as Run Test, Debug Test, and Code Coverage.
+    "powershell.pester.useLegacyCodeLens": false,
+    // Markdown lint settings
+    // https://github.com/PowerShell/PowerShell/blob/master/.markdownlint.json
+    "markdownlint.config": {
+        "default": true,
+        "MD004": false,
+        "MD007": {
+            "indent": 4
+        },
+        // MD013 - Line length
+        "MD013": {
+            "line_length": 240
+        },
+        // MD026 - Trailing punctuation in header
+        "MD026": {
+            "punctuation": ".,;:!"
+        },
+        // MD029 - Ordered list item prefix
+        "MD029": false,
+        // MD030 - Spaces after list markers
+        "MD033": false,
+        // MD034 - Bare URL used
+        "MD034": false,
+        // MD036 - Emphasis used instead of a heading
+        "MD036": false,
+        //MD045 - Multiple consecutive blank lines
+        "MD045": false,
+        "no-hard-tabs": true
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+}
