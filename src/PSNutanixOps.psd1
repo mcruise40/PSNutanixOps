@@ -15,7 +15,7 @@ RootModule = 'PSNutanixOps.psm1'
 ModuleVersion = '0.0.1'
 
 # Supported PSEditions
-# CompatiblePSEditions = @()
+CompatiblePSEditions = @('Core')
 
 # ID used to uniquely identify this module
 GUID = '6328900e-54c4-4d50-991a-021f3df61628'
@@ -33,7 +33,7 @@ Copyright = '(c) mcruise40. All rights reserved.'
 Description = 'Unofficial PowerShell tooling for Nutanix Prism Central v4 API'
 
 # Minimum version of the PowerShell engine required by this module
-# PowerShellVersion = ''
+PowerShellVersion = '7.0'
 
 # Name of the PowerShell host required by this module
 # PowerShellHostName = ''
@@ -95,7 +95,7 @@ PrivateData = @{
     PSData = @{
 
         # Tags applied to this module. These help with module discovery in online galleries.
-        # Tags = @()
+        Tags = @('Nutanix', 'NutanixAHV', 'AHV', 'PrismCentral', 'NutanixV4', 'Inventory', 'RecoveryPoint', 'Upgrade', 'HCI', 'PSEdition_Core', 'Windows', 'Linux', 'MacOS')
 
         # A URL to the license for this module.
         LicenseUri = 'https://github.com/mcruise40/PSNutanixOps/blob/main/LICENSE'
