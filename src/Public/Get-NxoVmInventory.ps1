@@ -154,7 +154,7 @@ function Get-NxoVmInventory {
                 NGT_Version      = $guestTools.version
                 NGT_Available    = $guestTools.availableVersion
                 NGT_UpdateNeeded = TestNxoVersionLower -Installed $guestTools.version -Available $guestTools.availableVersion
-                BootType         = if ($bootObjectType) { $bootObjectType -replace '^vmm\.v4\.ahv\.config\.', '' } else { $null }
+                BootType         = if ($bootObjectType) { $bootObjectType -replace '^vmm\.v4\.ahv\.config\.' } else { $null }
                 vTPM             = [bool]$vm.vtpmConfig.isVtpmEnabled
                 MachineType      = $vm.machineType
                 MAC              = JoinNxoUnique -Value $network.MacAddress

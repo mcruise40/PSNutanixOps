@@ -2,6 +2,11 @@
 param()
 
 BeforeAll {
+    # The CI runs the tests under Set-StrictMode -Version Latest. Nutanix API objects have many optional
+    # properties that the module reads without strict mode, the same way it runs for users: a module does
+    # not inherit the strict mode of its caller. The functions under test are dot-sourced into the test
+    # scope, so strict mode is switched off here (inherited by all blocks and tests of this file).
+    Set-StrictMode -Off
     $sourceRoot = Split-Path -Path $PSScriptRoot -Parent
     $sourceFiles = Get-ChildItem -Path (Join-Path -Path $sourceRoot -ChildPath 'Private'), (Join-Path -Path $sourceRoot -ChildPath 'Public') -Filter '*.ps1' |
         Where-Object { $_.Name -notlike '*.Tests.ps1' }

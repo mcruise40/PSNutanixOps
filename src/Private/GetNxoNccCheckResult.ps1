@@ -95,7 +95,7 @@ function GetNxoNccCheckResult {
     $checks = foreach ($entry in @($details['detailedSummary'] | Where-Object { $null -ne $_ })) {
         $map = if ($entry.PSObject.Properties['map']) { $entry.map } else { $entry }
         foreach ($property in @($map.PSObject.Properties | Where-Object { $_.Name -like '*SdaExtIds' })) {
-            $category = ($property.Name -replace 'SdaExtIds$', '').ToUpperInvariant()
+            $category = ($property.Name -replace 'SdaExtIds$').ToUpperInvariant()
             foreach ($id in @([string]$property.Value -split '[,; ]+' | Where-Object { $_ })) {
                 $info = ResolveNxoNccCheck -Connection $Connection -CheckId $id -Cache $CheckCache
                 [PSCustomObject]@{ Category = $category; CheckId = $id; Title = $info.Title; Kb = $info.Kb }

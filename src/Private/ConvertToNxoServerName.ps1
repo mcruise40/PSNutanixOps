@@ -31,9 +31,9 @@ function ConvertToNxoServerName {
         $Server
     )
 
-    $name = $Server.Trim() -replace '^https?://', ''
-    $name = $name -replace '/.*$', ''
-    $name = $name -replace ':9440$', ''
+    $name = $Server.Trim() -replace '^https?://'
+    $name = $name -replace '/.*$'
+    $name = $name -replace ':9440$'
 
     if (-not $name) {
         throw [System.ArgumentException]::new("'$Server' is not a valid Prism Central address.", 'Server')

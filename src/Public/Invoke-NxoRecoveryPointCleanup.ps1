@@ -442,7 +442,7 @@ function Invoke-NxoRecoveryPointCleanup {
             if ($candidate.Reason -ne 'VM missing') { continue }
             if (@($candidate.VmIds | Where-Object { $liveVmNames.Contains([string]$deletedVmNames[$_]) }).Count) {
                 $candidate.Reason = 'VM replaced'
-                $candidate.GroupKey = 'VM replaced|' + ($candidate.GroupKey -replace '^[^|]*\|', '')
+                $candidate.GroupKey = 'VM replaced|' + ($candidate.GroupKey -replace '^[^|]*\|')
             }
         }
 

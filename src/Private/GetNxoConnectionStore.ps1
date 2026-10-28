@@ -18,7 +18,8 @@ function GetNxoConnectionStore {
     [OutputType([System.Collections.Specialized.OrderedDictionary])]
     param ()
 
-    if ($null -eq $script:NxoConnections) {
+    # Test-Path keeps this safe under Set-StrictMode, where reading an unset variable fails.
+    if (-not (Test-Path -Path 'variable:script:NxoConnections') -or $null -eq $script:NxoConnections) {
         $script:NxoConnections = [ordered]@{}
     }
 

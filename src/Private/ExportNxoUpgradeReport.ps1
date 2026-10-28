@@ -172,7 +172,7 @@ footer{margin-top:32px;color:#7b8794;font-size:12px}
             foreach ($nccCheck in $ncc.Checks) {
                 $class = switch ($nccCheck.Category) { 'FAIL' { 'fail' } 'ERROR' { 'fail' } 'WARN' { 'warn' } 'INFO' { 'info' } default { 'skip' } }
                 $kbLinks = @([string]$nccCheck.Kb -split ',\s*' | Where-Object { $_ } | ForEach-Object {
-                        if ($_ -match '^https?://') { "<a href='$(ConvertToNxoHtml $_)'>$(ConvertToNxoHtml ($_ -replace '^https?://(www\.)?', ''))</a>" } else { ConvertToNxoHtml $_ }
+                        if ($_ -match '^https?://') { "<a href='$(ConvertToNxoHtml $_)'>$(ConvertToNxoHtml ($_ -replace '^https?://(www\.)?'))</a>" } else { ConvertToNxoHtml $_ }
                     }) -join ', '
                 $checkTitle = if ($nccCheck.Title) { $nccCheck.Title } else { '(name not available via API)' }
                 [void]$sb.Append("<tr><td><span class='b $class'>$(ConvertToNxoHtml $nccCheck.Category)</span></td><td>$(ConvertToNxoHtml $nccCheck.CheckId)</td><td>$(ConvertToNxoHtml $checkTitle)</td><td>$kbLinks</td></tr>")
