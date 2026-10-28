@@ -3,7 +3,7 @@ param()
 
 BeforeAll {
     # Determine the built module path dynamically
-    $moduleName = 'PSScriptModule'
+    $moduleName = 'PSNutanixOps'
     $modulePath = Resolve-Path -Path (Join-Path -Path $PSScriptRoot -ChildPath "../../build/out/$moduleName")
     $manifestPath = Join-Path -Path $modulePath -ChildPath "$moduleName.psd1"
 
@@ -17,29 +17,29 @@ BeforeAll {
 
 AfterAll {
     # Clean up
-    Remove-Module 'PSScriptModule' -ErrorAction SilentlyContinue
+    Remove-Module 'PSNutanixOps' -ErrorAction SilentlyContinue
 }
 
-Describe 'PSScriptModule Integration Tests' -Tag 'Integration' {
+Describe 'PSNutanixOps Integration Tests' -Tag 'Integration' {
 
     Context 'Module Loading' {
         It 'Should load the module successfully' {
-            $module = Get-Module -Name 'PSScriptModule'
+            $module = Get-Module -Name 'PSNutanixOps'
             $module | Should -Not -BeNullOrEmpty
         }
 
         It 'Should have module manifest or psm1' {
-            $module = Get-Module -Name 'PSScriptModule'
+            $module = Get-Module -Name 'PSNutanixOps'
             $module.Path | Should -Match '\.(psd1|psm1)$'
         }
 
         It 'Should have correct module name' {
-            $module = Get-Module -Name 'PSScriptModule'
-            $module.Name | Should -Be 'PSScriptModule'
+            $module = Get-Module -Name 'PSNutanixOps'
+            $module.Name | Should -Be 'PSNutanixOps'
         }
 
         It 'Should have a valid version' {
-            $module = Get-Module -Name 'PSScriptModule'
+            $module = Get-Module -Name 'PSNutanixOps'
             $module.Version | Should -Not -BeNullOrEmpty
             $module.Version | Should -BeOfType [version]
         }
@@ -47,7 +47,7 @@ Describe 'PSScriptModule Integration Tests' -Tag 'Integration' {
 
     Context 'Exported Functions' {
         BeforeAll {
-            $module = Get-Module -Name 'PSScriptModule'
+            $module = Get-Module -Name 'PSNutanixOps'
             $exportedCommands = $module.ExportedCommands.Keys
 
             # Discover public functions from source
@@ -104,7 +104,7 @@ Describe 'PSScriptModule Integration Tests' -Tag 'Integration' {
 
     Context 'Module Metadata' {
         BeforeAll {
-            $module = Get-Module -Name 'PSScriptModule'
+            $module = Get-Module -Name 'PSNutanixOps'
         }
 
         It 'Should have an author' {
@@ -124,7 +124,7 @@ Describe 'PSScriptModule Integration Tests' -Tag 'Integration' {
         }
 
         It 'Should specify PowerShell version' {
-            $module = Get-Module -Name 'PSScriptModule'
+            $module = Get-Module -Name 'PSNutanixOps'
             # PowerShellVersion may not be set for all modules
             if ($module.PowerShellVersion) {
                 $module.PowerShellVersion | Should -BeOfType [version]
@@ -147,7 +147,7 @@ Describe 'PSScriptModule Integration Tests' -Tag 'Integration' {
     Context 'Performance' {
         It 'Should load module in reasonable time' {
             $loadTime = Measure-Command {
-                Remove-Module 'PSScriptModule' -ErrorAction SilentlyContinue
+                Remove-Module 'PSNutanixOps' -ErrorAction SilentlyContinue
                 # Use the same module path resolution as BeforeAll
                 Import-Module $manifestPath -Force
             }

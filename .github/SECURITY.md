@@ -11,7 +11,7 @@ We release patches for security vulnerabilities. Currently supported versions:
 
 ## Reporting a Vulnerability
 
-We take the security of PSScriptModule seriously. If you believe you have found a security vulnerability, please report it to us as described below.
+We take the security of PSNutanixOps seriously. If you believe you have found a security vulnerability, please report it to us as described below.
 
 ### Please Do Not
 
@@ -114,4 +114,4 @@ For security-related questions that are not vulnerabilities, please open a regul
 
 ---
 
-**Thank you for helping keep PSScriptModule and its users safe!**
+**Thank you for helping keep PSNutanixOps and its users safe!**

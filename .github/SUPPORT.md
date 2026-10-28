@@ -1,6 +1,6 @@
 # Need Help or Support?
 
-Thank you for using PSScriptModule!
+Thank you for using PSNutanixOps!
 
 If you need help or have questions, here are the available resources:
 

@@ -2,10 +2,10 @@
 
 <#
 .SYNOPSIS
-    Build script for the 'PSScriptModule' PowerShell module
+    Build script for the 'PSNutanixOps' PowerShell module
 
 .DESCRIPTION
-    This script contains the tasks for building the 'PSScriptModule' PowerShell module
+    This script contains the tasks for building the 'PSNutanixOps' PowerShell module
 #>
 [CmdletBinding()]
 [Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSReviewUnusedParameter', '',
@@ -27,7 +27,7 @@ Task . Clean, Build
 
 # Setup build environment
 Enter-Build {
-    $script:moduleName = 'PSScriptModule'
+    $script:moduleName = 'PSNutanixOps'
     $script:moduleSourcePath = Join-Path -Path $BuildRoot -ChildPath 'src'
     $script:testSourcePath = Join-Path -Path $BuildRoot -ChildPath 'tests'
     $script:testOutputPath = Join-Path -Path $BuildRoot -ChildPath 'test-results'
@@ -156,13 +156,13 @@ Task Export-CommandHelp {
     [void] (New-MarkdownCommandHelp @requestParam)
 
     # Validate generated markdown help files
-    $helpFiles = Measure-PlatyPSMarkdown -Path "$buildPath/help/PSScriptModule/*.md"
+    $helpFiles = Measure-PlatyPSMarkdown -Path "$buildPath/help/PSNutanixOps/*.md"
     foreach ($helpFile in $helpFiles) {
         [void] (Test-MarkdownCommandHelp -Path $helpFile.FilePath)
     }
 
     # Generate module help file
-    $mdfiles = Measure-PlatyPSMarkdown -Path "$buildPath/help/PSScriptModule/*.md" | Where-Object Filetype -Match 'CommandHelp'
+    $mdfiles = Measure-PlatyPSMarkdown -Path "$buildPath/help/PSNutanixOps/*.md" | Where-Object Filetype -Match 'CommandHelp'
     foreach ($mdfile in $mdfiles) {
         $markdownCommandHelp = Import-MarkdownCommandHelp -Path $mdfile.FilePath
         $requestParam = @{
