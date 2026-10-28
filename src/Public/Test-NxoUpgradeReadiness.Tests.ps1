@@ -101,8 +101,10 @@ Describe 'Test-NxoUpgradeReadiness with a simulated Prism Central' {
         It 'Keeps going when data sources fail' {
             Mock Write-Warning {}
             Mock GetNxoStatSeries { throw 'stats down' }
-            Mock GetNxoPagedList { throw 'alerts down' } -ParameterFilter { $Path -eq '/serviceability/alerts' }
-            Mock GetNxoPagedList { throw 'stats down' } -ParameterFilter { $Path -eq '/ahv/stats/vms' }
+            Mock InvokeNxoRestMethod {
+                if ($Path -like '*/serviceability/alerts?*' -or $Path -like '*/ahv/stats/vms?*') { throw 'source down' }
+                Invoke-FakeNxoRestMethod -Method $Method -Path $Path -Body $Body
+            }
             $result = @(Test-NxoUpgradeReadiness -NonInteractive -SkipNcc -ReportFolder $reportFolder)
             ($result | Where-Object Check -EQ 'Storage (resilient capacity)').Value | Should -Be 'n/a'
             ($result | Where-Object Check -EQ 'CPU peak with N-1').Value | Should -Be 'n/a'

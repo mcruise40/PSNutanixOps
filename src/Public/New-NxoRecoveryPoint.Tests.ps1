@@ -101,7 +101,10 @@ Describe 'New-NxoRecoveryPoint with a simulated Prism Central' {
 
         It 'Reports API errors per VM and continues' {
             Mock Write-Warning {}
-            Mock InvokeNxoApi { throw 'quota exceeded' } -ParameterFilter { $Method -eq 'POST' }
+            Mock InvokeNxoRestMethod {
+                if ($Method -eq 'POST') { throw 'quota exceeded' }
+                Invoke-FakeNxoRestMethod -Method $Method -Path $Path -Body $Body
+            }
             $result = @(New-NxoRecoveryPoint -VmName 'APP01', 'SQL01' -Confirm:$false)
             $result.Count | Should -Be 2
             $result[0].Success | Should -BeFalse

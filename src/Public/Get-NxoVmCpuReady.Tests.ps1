@@ -96,7 +96,10 @@ Describe 'Get-NxoVmCpuReady with a simulated Prism Central' {
         }
 
         It 'Continues after a failing VM' {
-            Mock GetNxoVmStatSample { throw 'stats failed' } -ParameterFilter { $VmExtId -eq 'vm-1' }
+            Mock InvokeNxoRestMethod {
+                if ($Path -like '*/ahv/stats/vms/vm-1?*') { throw 'stats failed' }
+                Invoke-FakeNxoRestMethod -Method $Method -Path $Path -Body $Body
+            }
             Mock Write-Warning {}
             @(Get-NxoVmCpuReady).VM | Should -Be @('SQL01')
             Should -Invoke Write-Warning -Times 1 -Exactly

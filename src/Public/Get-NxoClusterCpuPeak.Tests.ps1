@@ -92,7 +92,10 @@ Describe 'Get-NxoClusterCpuPeak with a simulated Prism Central' {
 
         It 'Skips a cluster whose host list fails and a Prism Central whose cluster list fails' {
             Mock Write-Warning {}
-            Mock GetNxoPagedList { throw 'hosts failed' } -ParameterFilter { $Path -like '*/hosts' }
+            Mock InvokeNxoRestMethod {
+                if ($Path -like '*/hosts?*') { throw 'hosts failed' }
+                Invoke-FakeNxoRestMethod -Method $Method -Path $Path -Body $Body
+            }
             Get-NxoClusterCpuPeak | Should -BeNullOrEmpty
             Mock GetNxoClusterList { throw 'clusters failed' }
             Get-NxoClusterCpuPeak | Should -BeNullOrEmpty

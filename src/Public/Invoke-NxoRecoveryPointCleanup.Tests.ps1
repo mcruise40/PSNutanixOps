@@ -114,9 +114,12 @@ Describe 'Invoke-NxoRecoveryPointCleanup with a simulated Prism Central' {
         }
 
         It 'Records deletions that were already gone or failed' {
-            Mock InvokeNxoApi { New-FakeNxoHttpError -StatusCode 404 } -ParameterFilter { $Method -eq 'DELETE' -and $Path -like '*/rp-2' }
-            Mock InvokeNxoApi { [PSCustomObject]@{ data = [PSCustomObject]@{ extId = 'task-bad' } } } -ParameterFilter { $Method -eq 'DELETE' -and $Path -like '*/rp-1' }
-            Mock InvokeNxoApi { [PSCustomObject]@{ data = [PSCustomObject]@{ status = 'FAILED'; errorMessages = @([PSCustomObject]@{ message = 'rate limit reached' }) } } } -ParameterFilter { $Path -eq '/config/tasks/task-bad' }
+            Mock InvokeNxoRestMethod {
+                if ($Method -eq 'DELETE' -and $Path -like '*/rp-2') { New-FakeNxoHttpError -StatusCode 404 }
+                if ($Method -eq 'DELETE' -and $Path -like '*/rp-1') { return [PSCustomObject]@{ data = [PSCustomObject]@{ extId = 'task-bad' } } }
+                if ($Path -like '*/config/tasks/task-bad') { return [PSCustomObject]@{ data = [PSCustomObject]@{ status = 'FAILED'; errorMessages = @([PSCustomObject]@{ message = 'rate limit reached' }) } } }
+                Invoke-FakeNxoRestMethod -Method $Method -Path $Path -Body $Body
+            }
             Set-TestAnswer 'all', '2'
             Invoke-NxoRecoveryPointCleanup -LogDirectory $logFolder -Confirm:$false -BatchSize 2
             $results = @(Import-Csv -LiteralPath (Get-ChildItem -Path $logFolder -Filter '*_LIVE_results.csv').FullName -UseCulture)
